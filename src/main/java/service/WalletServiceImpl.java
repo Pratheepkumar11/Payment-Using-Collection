@@ -12,6 +12,8 @@ import java.util.Objects;
 
 public class WalletServiceImpl implements WalletService {
 
+
+
 	private WalletDao walletRepository = new WalletDaoImpl();
 	
 	
@@ -23,14 +25,18 @@ public class WalletServiceImpl implements WalletService {
 
 	public Boolean login(Integer walletId, String password) throws WalletException, InsufficeintAmountException {
 		// TODO Auto-generated method stub
-		boolean success = true;
 
-		Wallet a= walletRepository.getWalletById(walletId);
-		if(Objects.equals(a.getPassword(), password)){
-			return success;
+
+		Wallet h= walletRepository.getWalletById(walletId);
+		if(Objects.equals(h.getPassword(), password)){
+
+			return true;
+		}else{
+			return false;
+
 		}
 
-		return false;
+
 	}
 
 	public Double addFundsToWallet(Integer walletId, Double amount) throws WalletException, InsufficeintAmountException {
@@ -70,18 +76,18 @@ public class WalletServiceImpl implements WalletService {
 		Wallet a= walletRepository.getWalletById(fromId);
 		Wallet bb =walletRepository.getWalletById(toId);
 
-		a1=a.getBalance()-amount;
-		a.setBalance(a1);
-		a2=amount +bb.getBalance();
-		bb.setBalance(a2);
+		if(a.getBalance()>=amount){
+			a1=a.getBalance()-amount;
+			a.setBalance(a1);
+			a2=amount +bb.getBalance();
+			bb.setBalance(a2);
+			this.walletRepository.updateWallet(a);
+			this.walletRepository.updateWallet(bb);
+			return true;
 
-		this.walletRepository.updateWallet(a);
-		this.walletRepository.updateWallet(bb);
-
-
-
-
-		return success;
+		}else{
+			return false;
+		}
 	}
 
 	public Wallet unRegisterWallet(Integer walletId, String password) throws WalletException, InsufficeintAmountException {

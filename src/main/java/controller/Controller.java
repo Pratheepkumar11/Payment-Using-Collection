@@ -17,12 +17,18 @@ import java.util.Scanner;
 
 public class Controller {
 
-	public static void main(String[] args)  {
+	public static void main(String[] args) throws WalletException, InsufficeintAmountException, AlreadyExistingAccountNumberException {
 		Scanner sc = new Scanner(System.in);
 
 		WalletService ws = new WalletServiceImpl();
 
-		Wallet a,b,c;
+		 WalletDao wd = new WalletDaoImpl();
+
+		Wallet a,b,c,d;
+		d = new Wallet(4, "dsp", 100.0, "d123");
+		wd.addWallet(d);
+		System.out.println(wd.getWalletById(4));
+
 		try {
 			a = new Wallet(1, "dsp", 100.0, "d123");
 			b = new Wallet(2, "wrt", 1000.0, "pass");
@@ -36,11 +42,11 @@ public class Controller {
 				System.out.println("After Login");
 
 
-				boolean d;
-				d = ws.login(2, "pass");
-				System.out.println(d);
+				boolean dd;
+				dd = ws.login(2, "passs");
+				System.out.println(dd);
 				System.out.println("Login Successfully ");
-				if (d) {
+				if (dd) {
 					{
 						System.out.println("1. Add Fund , 2. ShowBalance , 3. FundTransfer ,  4. Withdraw , 5. UnRegister ");
 						int ch = sc.nextInt();
